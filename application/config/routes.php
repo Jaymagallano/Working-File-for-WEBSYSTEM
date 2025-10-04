@@ -58,6 +58,10 @@ $route['login'] = 'auth/login';
 $route['logout'] = 'auth/logout';
 $route['dashboard'] = 'auth/dashboard';
 
+// Course routes
+$route['course/enroll'] = 'course/enroll';
+$route['course/(:num)'] = 'course/view/$1';
+$route['course'] = 'course/index';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-

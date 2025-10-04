@@ -11,7 +11,7 @@ class Migration_Create_enrollments_table extends CI_Migration {
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ),
-            'student_id' => array(
+            'user_id' => array(
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE
@@ -21,14 +21,14 @@ class Migration_Create_enrollments_table extends CI_Migration {
                 'constraint' => 11,
                 'unsigned' => TRUE
             ),
-            'enrolled_at' => array(
+            'enrollment_date' => array(
                 'type' => 'DATETIME',
-                'null' => TRUE
+                'null' => FALSE
             )
         ));
         
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->add_key('student_id');
+        $this->dbforge->add_key('user_id');
         $this->dbforge->add_key('course_id');
         $this->dbforge->create_table('enrollments');
     }

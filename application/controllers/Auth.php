@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
     
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('Course_model');
+        $this->load->model('Enrollment_model');
+    }
+    
     public function register() {
         if ($this->input->method() == 'post') {
             $this->form_validation->set_rules('name', 'Name', 'required|trim');
@@ -107,6 +113,13 @@ class Auth extends CI_Controller {
             case 'student':
                 // Fetch student-specific data
                 $data['total_teachers'] = $this->db->where('role', 'teacher')->count_all_results('users');
+                
+                // Get enrolled courses
+                $data['enrolled_courses'] = $this->Enrollment_model->getUserEnrollments($this->session->userdata('user_id'));
+                $data['enrolled_count'] = $this->Enrollment_model->countUserEnrollments($this->session->userdata('user_id'));
+                
+                // Get available courses (not enrolled)
+                $data['available_courses'] = $this->Course_model->getAvailableCourses($this->session->userdata('user_id'));
                 break;
         }
         

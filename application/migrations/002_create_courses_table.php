@@ -18,7 +18,7 @@ class Migration_Create_courses_table extends CI_Migration {
             'description' => array(
                 'type' => 'TEXT'
             ),
-            'instructor_id' => array(
+            'teacher_id' => array(
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE

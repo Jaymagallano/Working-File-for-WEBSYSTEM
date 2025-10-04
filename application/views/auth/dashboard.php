@@ -317,7 +317,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-muted mb-2">Enrolled Courses</h6>
-                            <h3 class="mb-0">0</h3>
+                            <h3 class="mb-0" id="enrolled-count"><?= isset($enrolled_count) ? $enrolled_count : 0 ?></h3>
                         </div>
                         <div class="text-success" style="font-size: 2rem;">
                             <i class="bi bi-book"></i>
@@ -346,13 +346,69 @@
     
     <div class="row">
         <div class="col-md-8">
+            <!-- Enrolled Courses Section -->
             <div class="card mb-3">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="bi bi-book"></i> My Courses</h5>
+                    <h5 class="mb-0"><i class="bi bi-book-fill text-success"></i> My Enrolled Courses</h5>
+                </div>
+                <div class="card-body" id="enrolled-courses-section">
+                    <?php if(isset($enrolled_courses) && count($enrolled_courses) > 0): ?>
+                        <div class="list-group" id="enrolled-courses-list">
+                            <?php foreach($enrolled_courses as $course): ?>
+                                <div class="list-group-item list-group-item-action" data-course-id="<?= $course->id ?>">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><?= $course->title ?></h5>
+                                        <small class="text-success">
+                                            <i class="bi bi-check-circle-fill"></i> Enrolled
+                                        </small>
+                                    </div>
+                                    <p class="mb-1"><?= $course->description ?></p>
+                                    <small class="text-muted">
+                                        <i class="bi bi-person"></i> <?= $course->instructor_name ?> | 
+                                        <i class="bi bi-calendar"></i> Enrolled on <?= date('M d, Y', strtotime($course->enrollment_date)) ?>
+                                    </small>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <div id="no-enrolled-courses">
+                            <p class="text-muted">You are not enrolled in any courses yet.</p>
+                            <p class="text-muted">Browse available courses below and click "Enroll" to get started!</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <!-- Available Courses Section -->
+            <div class="card mb-3">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-mortarboard text-primary"></i> Available Courses</h5>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted">You are not enrolled in any courses yet.</p>
-                    <a href="#" class="btn btn-primary">Browse Courses</a>
+                    <?php if(isset($available_courses) && count($available_courses) > 0): ?>
+                        <div class="list-group">
+                            <?php foreach($available_courses as $course): ?>
+                                <div class="list-group-item" id="course-item-<?= $course->id ?>">
+                                    <div class="d-flex w-100 justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-1"><?= $course->title ?></h5>
+                                            <p class="mb-1"><?= $course->description ?></p>
+                                            <small class="text-muted">
+                                                <i class="bi bi-person"></i> <?= $course->instructor_name ?>
+                                            </small>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm enroll-btn" 
+                                                data-course-id="<?= $course->id ?>" 
+                                                data-course-title="<?= htmlspecialchars($course->title) ?>">
+                                            <i class="bi bi-plus-circle"></i> Enroll
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="text-muted">No available courses at this time. You've enrolled in all available courses!</p>
+                    <?php endif; ?>
                 </div>
             </div>
             
